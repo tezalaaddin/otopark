@@ -609,7 +609,30 @@ Aşağıdaki kararlar geliştirmeye başlamadan veya ilk sprint sırasında kesi
 
 ## Durum
 
-Proje şu anda **ürün tanımı ve teknik planlama** aşamasındadır. Henüz uygulama kodu yazılmamıştır.
+Proje **MVP geliştirme** aşamasına geçmiştir. İlk sürümde React/TypeScript tabanlı tablet uyumlu web yönetim paneli ve Python/FastAPI tabanlı yerel otopark servisi iskeleti bulunmaktadır.
 
 İlk somut hedef; gerçek IP kamera kayıtlarıyla çalışan, plakayı yerelde okuyan, yetki kontrolü yapan, bariyeri kontrollü biçimde açabilen ve olayları tablet uyumlu bir web panelinde gösteren MVP'dir.
 
+### Web panelini yerelde çalıştırma
+
+```powershell
+npm install
+npm run dev
+```
+
+Üretim derlemesi:
+
+```powershell
+npm run build
+```
+
+Derlenen statik web dosyaları `dist/` klasörüne oluşturulur.
+
+### Yerel otopark servisini çalıştırma
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r edge\requirements.txt
+uvicorn edge.app.main:app --reload
+```

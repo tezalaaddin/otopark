@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.vite/
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+data/
+captures/
+*.db
+*.sqlite3
+.DS_Store
+Thumbs.db
+
