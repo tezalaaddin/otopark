@@ -24,10 +24,12 @@ import {
 } from 'lucide-react'
 import { passages, type Passage } from './data'
 import OperationsCenter from './OperationsCenter'
+import AnalyticsCenter from './AnalyticsCenter'
 
 const navigation = [
   { label: 'Genel Bakış', icon: LayoutDashboard, view: 'overview' },
   { label: 'Canlı Harita', icon: CircleParking, view: 'operations' },
+  { label: 'Analiz Merkezi', icon: BarChart3, view: 'analytics' },
   { label: 'Canlı Geçişler', icon: Camera, view: 'passages' },
   { label: 'Araçlar', icon: CarFront },
   { label: 'Aboneler', icon: Users },
@@ -88,7 +90,7 @@ function App() {
 
       {menuOpen && <button className="overlay" aria-label="Menüyü kapat" onClick={() => setMenuOpen(false)} />}
 
-      <main className={`main-content ${activeView === 'operations' ? 'operations-mode' : ''}`}>
+      <main className={`main-content ${activeView === 'operations' || activeView === 'analytics' ? 'operations-mode' : ''}`}>
         <header className="topbar">
           <button className="icon-button menu-button" onClick={() => setMenuOpen(true)} aria-label="Menüyü aç"><Menu /></button>
           <div className="search-box"><Search size={19} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Plaka veya abone ara..." /></div>
@@ -99,7 +101,7 @@ function App() {
           </div>
         </header>
 
-        {activeView === 'operations' ? <OperationsCenter /> : <div className="page">
+        {activeView === 'operations' ? <OperationsCenter /> : activeView === 'analytics' ? <AnalyticsCenter /> : <div className="page">
           <section className="page-heading">
             <div><p className="eyebrow">25 TEMMUZ 2026 · CUMARTESİ</p><h1>İyi akşamlar, Tez Bey</h1><p>Otopark operasyonunuzun anlık durumu burada.</p></div>
             <button className={`gate-button ${gateOpen ? 'opened' : ''}`} onClick={triggerGate}><DoorOpen size={19} />{gateOpen ? 'Bariyer açıldı' : 'Bariyeri aç'}</button>
