@@ -23,10 +23,12 @@ import {
   X,
 } from 'lucide-react'
 import { passages, type Passage } from './data'
+import OperationsCenter from './OperationsCenter'
 
 const navigation = [
-  { label: 'Genel Bakış', icon: LayoutDashboard, active: true },
-  { label: 'Canlı Geçişler', icon: Camera },
+  { label: 'Genel Bakış', icon: LayoutDashboard, view: 'overview' },
+  { label: 'Canlı Harita', icon: CircleParking, view: 'operations' },
+  { label: 'Canlı Geçişler', icon: Camera, view: 'passages' },
   { label: 'Araçlar', icon: CarFront },
   { label: 'Aboneler', icon: Users },
   { label: 'Otopark', icon: CircleParking },
@@ -42,6 +44,7 @@ function StatusPill({ status }: { status: Passage['status'] }) {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeView, setActiveView] = useState('overview')
   const [query, setQuery] = useState('')
   const [gateOpen, setGateOpen] = useState(false)
   const [notice, setNotice] = useState('')
@@ -69,8 +72,8 @@ function App() {
         </div>
         <nav>
           <p className="nav-caption">YÖNETİM</p>
-          {navigation.map(({ label, icon: Icon, active }) => (
-            <button className={`nav-item ${active ? 'active' : ''}`} key={label} onClick={() => setMenuOpen(false)}>
+          {navigation.map(({ label, icon: Icon, view }) => (
+            <button className={`nav-item ${activeView === view ? 'active' : ''}`} key={label} onClick={() => { if (view) setActiveView(view); setMenuOpen(false) }}>
               <Icon size={20} /> <span>{label}</span>
             </button>
           ))}
@@ -85,7 +88,7 @@ function App() {
 
       {menuOpen && <button className="overlay" aria-label="Menüyü kapat" onClick={() => setMenuOpen(false)} />}
 
-      <main className="main-content">
+      <main className={`main-content ${activeView === 'operations' ? 'operations-mode' : ''}`}>
         <header className="topbar">
           <button className="icon-button menu-button" onClick={() => setMenuOpen(true)} aria-label="Menüyü aç"><Menu /></button>
           <div className="search-box"><Search size={19} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Plaka veya abone ara..." /></div>
@@ -96,7 +99,7 @@ function App() {
           </div>
         </header>
 
-        <div className="page">
+        {activeView === 'operations' ? <OperationsCenter /> : <div className="page">
           <section className="page-heading">
             <div><p className="eyebrow">25 TEMMUZ 2026 · CUMARTESİ</p><h1>İyi akşamlar, Tez Bey</h1><p>Otopark operasyonunuzun anlık durumu burada.</p></div>
             <button className={`gate-button ${gateOpen ? 'opened' : ''}`} onClick={triggerGate}><DoorOpen size={19} />{gateOpen ? 'Bariyer açıldı' : 'Bariyeri aç'}</button>
@@ -154,11 +157,10 @@ function App() {
             <div><span className="system-icon"><DoorOpen size={19} /></span><p><strong>Bariyerler</strong><small>2 / 2 hazır</small></p><i className="ok-dot" /></div>
             <div className="warning-item"><span className="system-icon"><AlertTriangle size={19} /></span><p><strong>Uyarılar</strong><small>1 düşük güvenli okuma</small></p><i className="warning-dot" /></div>
           </section>
-        </div>
+        </div>}
       </main>
     </div>
   )
 }
 
 export default App
-
