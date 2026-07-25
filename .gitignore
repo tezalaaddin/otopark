@@ -14,5 +14,6 @@ captures/
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts
+provife-web.zip
 .DS_Store
 Thumbs.db
